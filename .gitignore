@@ -53,7 +53,8 @@ nunit-*.xml
 [Dd]ebugPS/
 [Rr]eleasePS/
 dlldata.c
-
+out/**/*
+**/cmake-nana-build-*
 # Benchmark Results
 BenchmarkDotNet.Artifacts/
 
