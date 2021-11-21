@@ -60,3 +60,54 @@ void Stats::AppendToListbox(nana::listbox& listbox)
     tHPMax = listbox.at(0).append(HPMax);
     tMPMax = listbox.at(0).append(MPMax);
 }
+
+NativeStringPair Spells::GetSpell(const std::wstring& name)
+{
+    auto it = tSpellList.find(nana::to_nstring(name));
+    if (it != tSpellList.end())
+    {
+        NativeStringPair oPair;
+        it->second.resolve_to(oPair);
+        return oPair;
+    }
+
+    return {};
+}
+
+NativeStringPair Spells::GetSpell(const std::string& name)
+{
+    auto it = tSpellList.find(nana::to_nstring(name));
+    if (it != tSpellList.end())
+    {
+        NativeStringPair oPair;
+        it->second.resolve_to(oPair);
+        return oPair;
+    }
+
+    return {};
+}
+
+void Spells::SetSpell(const NativeStringPair& spell, nana::listbox& listbox)
+{
+    auto it = SpellList.find(nana::to_nstring(spell.Name));
+    
+    if (it != SpellList.end())
+    {
+        auto it2 = tSpellList.find(nana::to_nstring(spell.Name));
+        if (spell.Value.empty())
+        {
+            SpellList.erase(it);
+            tSpellList.erase(it2);
+        }
+        else
+        {
+            it->second = spell;
+            it2->second = it2->second.resolve_from(spell);
+        }     
+    }
+    else
+    {
+        SpellList.emplace(spell.Name, spell);
+        tSpellList.emplace(spell.Name, listbox.at(0).append(spell));
+    }
+}

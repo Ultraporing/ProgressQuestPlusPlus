@@ -1,6 +1,7 @@
 #pragma once
 #include <nana/gui/widgets/listbox.hpp>
 #include <nana/deploy.hpp>
+#include <map>
 
 struct NativeStringPair
 {
@@ -82,4 +83,19 @@ private:
 	nana::listbox::item_proxy tCHA;
 	nana::listbox::item_proxy tHPMax;
 	nana::listbox::item_proxy tMPMax;
+};
+
+struct Spells
+{
+	std::map<nana::detail::native_string_type, NativeStringPair> SpellList;
+
+	Spells() : SpellList(std::map<nana::detail::native_string_type, NativeStringPair>()), tSpellList(std::map<nana::detail::native_string_type, nana::listbox::item_proxy>())
+	{}
+
+	NativeStringPair GetSpell(const std::wstring& name);
+	NativeStringPair GetSpell(const std::string& name);
+	void SetSpell(const NativeStringPair& spell, nana::listbox& listbox);
+
+private:
+	std::map<nana::detail::native_string_type, nana::listbox::item_proxy> tSpellList;
 };
