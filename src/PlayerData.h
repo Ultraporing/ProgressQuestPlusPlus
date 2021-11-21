@@ -59,11 +59,14 @@ struct Stats
 	NativeStringPair INT;
 	NativeStringPair WIS;
 	NativeStringPair CHA;
+	NativeStringPair HPMax;
+	NativeStringPair MPMax;
 
 	Stats() : 
-		STR("STR", ""), CON("CON", ""), DEX("DEX", ""), INT("INT", ""), WIS("WIS", ""), CHA("CHA", ""),
+		STR("STR", ""), CON("CON", ""), DEX("DEX", ""), INT("INT", ""), WIS("WIS", ""), CHA("CHA", ""), HPMax("HP Max", ""), MPMax("MP Max", ""),
 		tSTR(nana::listbox::item_proxy(nullptr)), tCON(nana::listbox::item_proxy(nullptr)),	tDEX(nana::listbox::item_proxy(nullptr)), 
-		tINT(nana::listbox::item_proxy(nullptr)), tWIS(nana::listbox::item_proxy(nullptr)), tCHA(nana::listbox::item_proxy(nullptr))
+		tINT(nana::listbox::item_proxy(nullptr)), tWIS(nana::listbox::item_proxy(nullptr)), tCHA(nana::listbox::item_proxy(nullptr)),
+		tHPMax(nana::listbox::item_proxy(nullptr)), tMPMax(nana::listbox::item_proxy(nullptr))
 	{
 	}
 
@@ -77,4 +80,6 @@ private:
 	nana::listbox::item_proxy tINT;
 	nana::listbox::item_proxy tWIS;
 	nana::listbox::item_proxy tCHA;
+	nana::listbox::item_proxy tHPMax;
+	nana::listbox::item_proxy tMPMax;
 };

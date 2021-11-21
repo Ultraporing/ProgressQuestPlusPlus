@@ -45,6 +45,8 @@ void Stats::UpdateUI()
     tINT = tINT.resolve_from(INT);
     tWIS = tWIS.resolve_from(WIS);
     tCHA = tCHA.resolve_from(CHA);
+    tHPMax = tHPMax.resolve_from(HPMax);
+    tMPMax = tMPMax.resolve_from(MPMax);
 }
 
 void Stats::AppendToListbox(nana::listbox& listbox)
@@ -55,4 +57,6 @@ void Stats::AppendToListbox(nana::listbox& listbox)
     tINT = listbox.at(0).append(INT);
     tWIS = listbox.at(0).append(WIS);
     tCHA = listbox.at(0).append(CHA);
+    tHPMax = listbox.at(0).append(HPMax);
+    tMPMax = listbox.at(0).append(MPMax);
 }
