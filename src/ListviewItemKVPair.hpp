@@ -246,18 +246,67 @@ public:
 };
 
 template<typename K, typename V>
-nana::listbox::oresolver& operator << (nana::listbox::oresolver& orr, const ListviewItemKVPair<K, V>& ps)
+nana::listbox::oresolver& operator << (nana::listbox::oresolver& orr, const ListviewItemKVPair<K*, V>& ps)
 {
-	orr << ps.Key();
-	orr << ps.Value();
+	orr << std::stringstream((*ps.KeyPtr())[0]).str();
+	orr << *ps.ValuePtr();
 	return orr;
 }
 
 template<typename K, typename V>
+nana::listbox::oresolver& operator << (nana::listbox::oresolver& orr, const ListviewItemKVPair<K, V>& ps)
+{
+	orr << *ps.KeyPtr();
+	orr << *ps.ValuePtr();
+	return orr;
+}
+
+template<typename K, typename V>
+nana::listbox::oresolver& operator << (nana::listbox::oresolver& orr, const ListviewItemKVPair<K*, V*>& ps)
+{
+	orr << std::stringstream((*ps.KeyPtr())[0]).str();
+	orr << std::stringstream((*ps.ValuePtr())[0]).str();
+	return orr;
+}
+
+template<typename K, typename V>
+nana::listbox::oresolver& operator << (nana::listbox::oresolver& orr, const ListviewItemKVPair<K, V*>& ps)
+{
+	orr << *ps.KeyPtr();
+	orr << std::stringstream((*ps.ValuePtr())[0]).str();
+	return orr;
+}
+
+
+template<typename K, typename V>
 std::ostream& operator << (std::ostream& orr, const ListviewItemKVPair<K, V>& ps)
 {
-	orr << ps.Key();
-	orr << ps.Value();
+	orr << *ps.KeyPtr();
+	orr << *ps.ValuePtr();
+	return orr;
+}
+
+template<typename K, typename V>
+std::ostream& operator << (std::ostream& orr, const ListviewItemKVPair<K*, V>& ps)
+{
+	orr << std::stringstream((*ps.KeyPtr())[0]).str();
+	orr << *ps.ValuePtr();
+	return orr;
+}
+
+template<typename K, typename V>
+std::ostream& operator << (std::ostream& orr, const ListviewItemKVPair<K, V*>& ps)
+{
+	orr << *ps.KeyPtr();
+	orr << std::stringstream((*ps.ValuePtr())[0]).str();
+	return orr;
+}
+
+template<typename K, typename V>
+std::ostream& operator << (std::ostream& orr, const ListviewItemKVPair<K*, V*>& ps)
+{
+	orr << std::stringstream((*ps.KeyPtr())[0]).str();
+	orr << std::stringstream((*ps.ValuePtr())[0]).str();
 	return orr;
 }
 
