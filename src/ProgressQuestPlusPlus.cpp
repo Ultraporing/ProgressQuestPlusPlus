@@ -147,6 +147,8 @@ int main()
     stats.HPMax.SetValue(to_nstring("10"));
     stats.MPMax.SetValue(to_nstring("17"));
 
+    
+
     listbox statsLb{ fm, true };
     statsLb.clear_headers();
     statsLb.auto_draw(false);
@@ -169,6 +171,7 @@ int main()
     traits.Race.SetValue(to_nstring("Frisbee"));
     traits.Level.SetValue(to_nstring(69));
     
+    
 
     listbox traitsLb{ fm, true };
     traitsLb.clear_headers();
@@ -183,6 +186,8 @@ int main()
     traitsLb.column_at(0).width(statsLb.column_at(0).width());
     traitsLb.column_at(1).width(200 - traitsLb.column_at(0).width());
     traitsLb.enable_single(true, false);
+
+    stats.CON.SetValue(to_nstring("stopid value")).SetKey(to_nstring("retardo key")).AppendToListbox(traitsLb).SetValue(to_nstring("stopid changed value")).Update();
 
     listbox spellsLb{ fm, true };
     spellsLb.clear_headers();
