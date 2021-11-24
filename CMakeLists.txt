@@ -19,7 +19,7 @@ set_target_properties(ProgressQuestPlusPlus PROPERTIES CXX_EXTENSIONS ON)
 
 add_subdirectory("${CMAKE_SOURCE_DIR}/lib/nana" "${CMAKE_SOURCE_DIR}/lib/nana/cmake-nana-build-${CONFIG}" )
 
- foreach(flag
+foreach(flag
         CMAKE_C_FLAGS              CMAKE_C_FLAGS_DEBUG             CMAKE_C_FLAGS_RELEASE
         CMAKE_C_FLAGS_MINSIZEREL   CMAKE_C_FLAGS_RELWITHDEBINFO
         CMAKE_CXX_FLAGS            CMAKE_CXX_FLAGS_DEBUG           CMAKE_CXX_FLAGS_RELEASE

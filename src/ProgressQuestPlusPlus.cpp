@@ -138,14 +138,14 @@ int main()
 
 
     Stats stats;
-    stats.STR.Value = to_nstring("5");
-    stats.CON.Value = to_nstring("8");
-    stats.DEX.Value = to_nstring("7");
-    stats.INT.Value = to_nstring("3");
-    stats.WIS.Value = to_nstring("0");
-    stats.CHA.Value = to_nstring("15");
-    stats.HPMax.Value = to_nstring("10");
-    stats.MPMax.Value = to_nstring("17");
+    stats.STR.SetValue(to_nstring("5"));
+    stats.CON.SetValue(to_nstring("8"));
+    stats.DEX.SetValue(to_nstring("7"));
+    stats.INT.SetValue(to_nstring("3"));
+    stats.WIS.SetValue(to_nstring("0"));
+    stats.CHA.SetValue(to_nstring("15"));
+    stats.HPMax.SetValue(to_nstring("10"));
+    stats.MPMax.SetValue(to_nstring("17"));
 
     listbox statsLb{ fm, true };
     statsLb.clear_headers();
@@ -164,10 +164,11 @@ int main()
 
 
     Traits traits;
-    traits.Name.Value = to_nstring("Derp");
-    traits.Class.Value = to_nstring("Treehugger");
-    traits.Race.Value = to_nstring("Frisbee");
-    traits.Level.Value = to_nstring(69);
+    traits.Name.SetValue(to_nstring("Derp"));
+    traits.Class.SetValue(to_nstring("Treehugger"));
+    traits.Race.SetValue(to_nstring("Frisbee"));
+    traits.Level.SetValue(to_nstring(69));
+    
 
     listbox traitsLb{ fm, true };
     traitsLb.clear_headers();
@@ -197,10 +198,10 @@ int main()
     spellsLb.enable_single(true, false);
 
     Spells spells;
-    spells.SetSpell(NativeStringPair{ nana::to_nstring("derp pew"), IntToRoman(512) }, spellsLb);
-    spells.SetSpell(NativeStringPair{ nana::to_nstring("depew"), IntToRoman(52) }, spellsLb);
-    spells.SetSpell(NativeStringPair{ nana::to_nstring("deew"), IntToRoman(1) }, spellsLb);
-    spells.SetSpell(NativeStringPair{ nana::to_nstring("kmkw"), IntToRoman(12) }, spellsLb);
+    spells.SetSpell(ListviewItemKVPair<nana::detail::native_string_type, nana::detail::native_string_type>("derp pew", IntToRoman(512)), spellsLb);
+    spells.SetSpell(ListviewItemKVPair<nana::detail::native_string_type, nana::detail::native_string_type>( "depew", IntToRoman(52) ), spellsLb);
+    spells.SetSpell(ListviewItemKVPair<nana::detail::native_string_type, nana::detail::native_string_type>( nana::to_nstring("deew"), IntToRoman(1) ), spellsLb);
+    spells.SetSpell(ListviewItemKVPair<nana::detail::native_string_type, nana::detail::native_string_type>( nana::to_nstring("kmkw"), IntToRoman(12) ), spellsLb);
 
     
     
@@ -238,7 +239,6 @@ int main()
     plc["l8"] << l8;
 
     plc.collocate();
- 
     // pd.P2 = "63";
         
     //Show the form

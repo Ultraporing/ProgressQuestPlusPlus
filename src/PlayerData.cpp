@@ -1,26 +1,5 @@
 #include "PlayerData.h"
 
-nana::listbox::oresolver& operator << (nana::listbox::oresolver& orr, const NativeStringPair& ps)
-{
-    orr << ps.Name;
-    orr << ps.Value;
-    return orr;
-}
-
-std::ostream& operator << (std::ostream& orr, const NativeStringPair& ps)
-{
-    orr << ps.Name;
-    orr << ps.Value;
-    return orr;
-}
-
-nana::listbox::iresolver& operator >> (nana::listbox::iresolver& orr, NativeStringPair& ps)
-{
-    orr >> ps.Name;
-    orr >> ps.Value;
-    return orr;
-}
-
 void Traits::UpdateUI()
 {
     tName = tName.resolve_from(Name);
@@ -31,10 +10,10 @@ void Traits::UpdateUI()
 
 void Traits::AppendToListbox(nana::listbox& listbox)
 {
-    tName = listbox.at(0).append(Name);
-    tRace = listbox.at(0).append(Race);
-    tClass = listbox.at(0).append(Class);
-    tLevel = listbox.at(0).append(Level);
+    tName = *Name.AppendToListbox(listbox).ItemProxy();
+    tRace = *Race.AppendToListbox(listbox).ItemProxy();
+    tClass = *Class.AppendToListbox(listbox).ItemProxy();
+    tLevel = *Level.AppendToListbox(listbox).ItemProxy();
 }
 
 void Stats::UpdateUI()
@@ -61,12 +40,12 @@ void Stats::AppendToListbox(nana::listbox& listbox)
     tMPMax = listbox.at(0).append(MPMax);
 }
 
-NativeStringPair Spells::GetSpell(const std::wstring& name)
+ListviewItemKVPair<nana::detail::native_string_type, nana::detail::native_string_type> Spells::GetSpell(const nana::detail::native_string_type& name)
 {
-    auto it = tSpellList.find(nana::to_nstring(name));
+    auto it = tSpellList.find(name);
     if (it != tSpellList.end())
     {
-        NativeStringPair oPair;
+        ListviewItemKVPair<nana::detail::native_string_type, nana::detail::native_string_type> oPair;
         it->second.resolve_to(oPair);
         return oPair;
     }
@@ -74,27 +53,14 @@ NativeStringPair Spells::GetSpell(const std::wstring& name)
     return {};
 }
 
-NativeStringPair Spells::GetSpell(const std::string& name)
+void Spells::SetSpell(ListviewItemKVPair<nana::detail::native_string_type, nana::detail::native_string_type> spell, nana::listbox& listbox)
 {
-    auto it = tSpellList.find(nana::to_nstring(name));
-    if (it != tSpellList.end())
-    {
-        NativeStringPair oPair;
-        it->second.resolve_to(oPair);
-        return oPair;
-    }
-
-    return {};
-}
-
-void Spells::SetSpell(const NativeStringPair& spell, nana::listbox& listbox)
-{
-    auto it = SpellList.find(nana::to_nstring(spell.Name));
+    auto it = SpellList.find(spell.Key());
     
     if (it != SpellList.end())
     {
-        auto it2 = tSpellList.find(nana::to_nstring(spell.Name));
-        if (spell.Value.empty())
+        auto it2 = tSpellList.find(nana::to_nstring(spell.Key()));
+        if (spell.Value().empty())
         {
             SpellList.erase(it);
             tSpellList.erase(it2);
@@ -107,7 +73,7 @@ void Spells::SetSpell(const NativeStringPair& spell, nana::listbox& listbox)
     }
     else
     {
-        SpellList.emplace(spell.Name, spell);
-        tSpellList.emplace(spell.Name, listbox.at(0).append(spell));
+        SpellList.emplace(spell.Key(), spell);
+        tSpellList.emplace(spell.Key(), listbox.at(0).append(spell));
     }
 }

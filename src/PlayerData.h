@@ -1,43 +1,15 @@
 #pragma once
-#include <nana/gui/widgets/listbox.hpp>
-#include <nana/deploy.hpp>
-#include <map>
-
-struct NativeStringPair
-{
-	nana::detail::native_string_type Name;
-	nana::detail::native_string_type Value;
-
-	NativeStringPair() : Name(nana::to_nstring("")), Value(nana::to_nstring(""))
-	{
-	}
-
-	NativeStringPair(const std::wstring& name) : Name(nana::to_nstring(name)), Value(nana::to_nstring(""))
-	{
-	}
-
-	NativeStringPair(const std::wstring& name, const std::wstring& value) : Name(nana::to_nstring(name)), Value(nana::to_nstring(value))
-	{
-	}
-
-	NativeStringPair(const std::string& name) : Name(nana::to_nstring(name)), Value(nana::to_nstring(""))
-	{
-	}
-
-	NativeStringPair(const std::string& name, const std::string& value) : Name(nana::to_nstring(name)), Value(nana::to_nstring(value))
-	{
-	}
-};
+#include "ListviewItemKVPair.hpp"
 
 struct Traits
 {
-	NativeStringPair Name;
-	NativeStringPair Race;
-	NativeStringPair Class;
-	NativeStringPair Level;
+	ListviewItemKVPair<nana::detail::native_string_type, nana::detail::native_string_type> Name;
+	ListviewItemKVPair<nana::detail::native_string_type, nana::detail::native_string_type> Race;
+	ListviewItemKVPair<nana::detail::native_string_type, nana::detail::native_string_type> Class;
+	ListviewItemKVPair<nana::detail::native_string_type, nana::detail::native_string_type> Level;
 	
 	Traits() : 
-		Name("Name", ""), Race("Race", ""), Class("Class", ""), Level("Level", ""), 
+		Name("Name", ""), Race("Race", ""), Class("Class", ""), Level("Level", ""),
 		tName(nana::listbox::item_proxy(nullptr)), tRace(nana::listbox::item_proxy(nullptr)), tClass(nana::listbox::item_proxy(nullptr)), tLevel(nana::listbox::item_proxy(nullptr))
 	{
 	}
@@ -54,14 +26,14 @@ private:
 
 struct Stats
 {
-	NativeStringPair STR;
-	NativeStringPair CON;
-	NativeStringPair DEX;
-	NativeStringPair INT;
-	NativeStringPair WIS;
-	NativeStringPair CHA;
-	NativeStringPair HPMax;
-	NativeStringPair MPMax;
+	ListviewItemKVPair<nana::detail::native_string_type, nana::detail::native_string_type> STR;
+	ListviewItemKVPair<nana::detail::native_string_type, nana::detail::native_string_type> CON;
+	ListviewItemKVPair<nana::detail::native_string_type, nana::detail::native_string_type> DEX;
+	ListviewItemKVPair<nana::detail::native_string_type, nana::detail::native_string_type> INT;
+	ListviewItemKVPair<nana::detail::native_string_type, nana::detail::native_string_type> WIS;
+	ListviewItemKVPair<nana::detail::native_string_type, nana::detail::native_string_type> CHA;
+	ListviewItemKVPair<nana::detail::native_string_type, nana::detail::native_string_type> HPMax;
+	ListviewItemKVPair<nana::detail::native_string_type, nana::detail::native_string_type> MPMax;
 
 	Stats() : 
 		STR("STR", ""), CON("CON", ""), DEX("DEX", ""), INT("INT", ""), WIS("WIS", ""), CHA("CHA", ""), HPMax("HP Max", ""), MPMax("MP Max", ""),
@@ -87,14 +59,13 @@ private:
 
 struct Spells
 {
-	std::map<nana::detail::native_string_type, NativeStringPair> SpellList;
+	std::map<nana::detail::native_string_type, ListviewItemKVPair<nana::detail::native_string_type, nana::detail::native_string_type>> SpellList;
 
-	Spells() : SpellList(std::map<nana::detail::native_string_type, NativeStringPair>()), tSpellList(std::map<nana::detail::native_string_type, nana::listbox::item_proxy>())
+	Spells() : SpellList(std::map<nana::detail::native_string_type, ListviewItemKVPair<nana::detail::native_string_type, nana::detail::native_string_type>>()), tSpellList(std::map<nana::detail::native_string_type, nana::listbox::item_proxy>())
 	{}
 
-	NativeStringPair GetSpell(const std::wstring& name);
-	NativeStringPair GetSpell(const std::string& name);
-	void SetSpell(const NativeStringPair& spell, nana::listbox& listbox);
+	ListviewItemKVPair<nana::detail::native_string_type, nana::detail::native_string_type> GetSpell(const nana::detail::native_string_type& name);
+	void SetSpell(ListviewItemKVPair<nana::detail::native_string_type, nana::detail::native_string_type> spell, nana::listbox& listbox);
 
 private:
 	std::map<nana::detail::native_string_type, nana::listbox::item_proxy> tSpellList;
