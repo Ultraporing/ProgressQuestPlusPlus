@@ -137,6 +137,14 @@ public:
 	{
 	}
 
+	KVPair(K key, V value) : m_NativePair(std::pair<K, V>(key, value))
+	{
+	}
+
+	KVPair(K* key, V* value) : m_NativePair(std::pair<K*, V*>(key, value))
+	{
+	}
+
 	KVPair(const char* key) : m_NativePair(std::pair<nana::detail::native_string_type, V>(nana::to_nstring(key), V()))
 	{
 	}
@@ -166,10 +174,6 @@ public:
 	}
 
 	KVPair(const wchar_t* key, const wchar_t* value) : m_NativePair(std::pair<nana::detail::native_string_type, nana::detail::native_string_type>(nana::to_nstring(key), nana::to_nstring(value)))
-	{
-	}
-
-	KVPair(nana::detail::native_string_type key, nana::detail::native_string_type value) : m_NativePair(std::pair<nana::detail::native_string_type, nana::detail::native_string_type>(key, value))
 	{
 	}
 };
@@ -208,6 +212,10 @@ public:
 	{
 	}
 
+	ListviewItemKVPair(K key, V value) : KVPair<K, V, ListviewItemKVPair<K, V>>(key, value), m_NativeItemProxy(nana::listbox::item_proxy(nullptr))
+	{
+	}
+
 	ListviewItemKVPair(const char* key) : KVPair<K, V, ListviewItemKVPair<K, V>>(key), m_NativeItemProxy(nana::listbox::item_proxy(nullptr))
 	{
 	}
@@ -239,16 +247,12 @@ public:
 	ListviewItemKVPair(const wchar_t* key, const wchar_t* value) : KVPair<K, V, ListviewItemKVPair<K, V>>(key, value), m_NativeItemProxy(nana::listbox::item_proxy(nullptr))
 	{
 	}
-
-	ListviewItemKVPair(nana::detail::native_string_type key, nana::detail::native_string_type value) : KVPair<K, V, ListviewItemKVPair<K, V>>(key, value), m_NativeItemProxy(nana::listbox::item_proxy(nullptr))
-	{
-	}
 };
 
 template<typename K, typename V>
 nana::listbox::oresolver& operator << (nana::listbox::oresolver& orr, const ListviewItemKVPair<K*, V>& ps)
 {
-	orr << std::stringstream((*ps.KeyPtr())[0]).str();
+	orr << (*ps.KeyPtr())[0];
 	orr << *ps.ValuePtr();
 	return orr;
 }
@@ -264,8 +268,8 @@ nana::listbox::oresolver& operator << (nana::listbox::oresolver& orr, const List
 template<typename K, typename V>
 nana::listbox::oresolver& operator << (nana::listbox::oresolver& orr, const ListviewItemKVPair<K*, V*>& ps)
 {
-	orr << std::stringstream((*ps.KeyPtr())[0]).str();
-	orr << std::stringstream((*ps.ValuePtr())[0]).str();
+	orr << (*ps.KeyPtr())[0];
+	orr << (*ps.ValuePtr())[0];
 	return orr;
 }
 
@@ -273,7 +277,7 @@ template<typename K, typename V>
 nana::listbox::oresolver& operator << (nana::listbox::oresolver& orr, const ListviewItemKVPair<K, V*>& ps)
 {
 	orr << *ps.KeyPtr();
-	orr << std::stringstream((*ps.ValuePtr())[0]).str();
+	orr << (*ps.ValuePtr())[0];
 	return orr;
 }
 
@@ -289,7 +293,7 @@ std::ostream& operator << (std::ostream& orr, const ListviewItemKVPair<K, V>& ps
 template<typename K, typename V>
 std::ostream& operator << (std::ostream& orr, const ListviewItemKVPair<K*, V>& ps)
 {
-	orr << std::stringstream((*ps.KeyPtr())[0]).str();
+	orr << (*ps.KeyPtr())[0];
 	orr << *ps.ValuePtr();
 	return orr;
 }
@@ -298,15 +302,15 @@ template<typename K, typename V>
 std::ostream& operator << (std::ostream& orr, const ListviewItemKVPair<K, V*>& ps)
 {
 	orr << *ps.KeyPtr();
-	orr << std::stringstream((*ps.ValuePtr())[0]).str();
+	orr << (*ps.ValuePtr())[0];
 	return orr;
 }
 
 template<typename K, typename V>
 std::ostream& operator << (std::ostream& orr, const ListviewItemKVPair<K*, V*>& ps)
 {
-	orr << std::stringstream((*ps.KeyPtr())[0]).str();
-	orr << std::stringstream((*ps.ValuePtr())[0]).str();
+	orr << (*ps.KeyPtr())[0];
+	orr << (*ps.ValuePtr())[0];
 	return orr;
 }
 

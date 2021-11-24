@@ -188,11 +188,11 @@ int main()
     traitsLb.column_at(1).width(200 - traitsLb.column_at(0).width());
     traitsLb.enable_single(true, false);
 
-    std::string ss1 = "derp";
+    int ss1 = 234;
     std::string ss2 = "map";
-    std::string* s1 = &ss1;
+    int* s1 = &ss1;
     std::string* s2 = &ss2;
-    ListviewItemKVPair<std::string*, std::string*> sp = ListviewItemKVPair<std::string*, std::string*>();
+    ListviewItemKVPair<int*, std::string*> sp = ListviewItemKVPair<int*, std::string*>(&ss1, s2);
     sp.SetKey(s1).SetValue(s2).AppendToListbox(traitsLb);
     stats.CON.SetValue(to_nstring("stopid value")).SetKey(to_nstring("retardo key")).AppendToListbox(traitsLb).SetValue(to_nstring("stopid changed value")).Update();
 
@@ -208,7 +208,7 @@ int main()
     spellsLb.column_at(0).width(statsLb.column_at(0).width());
     spellsLb.column_at(1).width(200 - traitsLb.column_at(0).width());
     spellsLb.enable_single(true, false);
-    *s1 = "blob";
+    *s1 = 24;
     sp.Update();
     Spells spells;
     spells.SetSpell(ListviewItemKVPair<nana::detail::native_string_type, nana::detail::native_string_type>("derp pew", IntToRoman(512)), spellsLb);
