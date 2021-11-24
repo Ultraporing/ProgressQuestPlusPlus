@@ -1,16 +1,19 @@
 #pragma once
 #include <nana/gui/widgets/listbox.hpp>
-#include <nana/deploy.hpp>
 #include <map>
 
 template<typename K, typename V>
-struct ListviewItemKVPair
+struct KVPair
 {
-private:
+protected:
 	std::pair<K, V> m_NativePair;
-	nana::listbox::item_proxy m_NativeItemProxy;
 
 	const K* KeyPtr(const K& key) const
+	{
+		return &key;
+	}
+
+	K* KeyPtr(K& key)
 	{
 		return &key;
 	}
@@ -20,7 +23,17 @@ private:
 		return key;
 	}
 
+	K* KeyPtr(K* key)
+	{
+		return key;
+	}
+
 	const V* ValuePtr(const V& value) const
+	{
+		return &value;
+	}
+
+	V* ValuePtr(V& value)
 	{
 		return &value;
 	}
@@ -30,12 +43,12 @@ private:
 		return value;
 	}
 
-public:
-	nana::listbox::item_proxy* ItemProxy()
+	V* ValuePtr(V* value)
 	{
-		return &m_NativeItemProxy;
+		return value;
 	}
 
+public:
 	std::pair<K, V>* KeyValuePtr()
 	{
 		return &m_NativePair;
@@ -51,7 +64,17 @@ public:
 		return KeyPtr(m_NativePair.first);
 	}
 
+	K* KeyPtr()
+	{
+		return KeyPtr(m_NativePair.first);
+	}
+
 	const K Key() const
+	{
+		return *KeyPtr(m_NativePair.first);
+	}
+
+	K Key()
 	{
 		return *KeyPtr(m_NativePair.first);
 	}
@@ -61,9 +84,104 @@ public:
 		return ValuePtr(m_NativePair.second);
 	}
 
+	V* ValuePtr()
+	{
+		return ValuePtr(m_NativePair.second);
+	}
+
 	const V Value() const
 	{
 		return *ValuePtr(m_NativePair.second);
+	}
+
+	V Value()
+	{
+		return *ValuePtr(m_NativePair.second);
+	}
+
+	KVPair& SetKey(const K& key)
+	{
+		KeyValuePtr()->first = key;
+
+		return *this;
+	}
+
+	KVPair& SetKey(K& key)
+	{
+		KeyValuePtr()->first = key;
+
+		return *this;
+	}
+
+	KVPair& SetValue(const V& value)
+	{
+		KeyValuePtr()->second = value;
+
+		return *this;
+	}
+
+	KVPair& SetValue(V& value)
+	{
+		KeyValuePtr()->second = value;
+
+		return *this;
+	}
+
+	KVPair() : m_NativePair(std::pair<K, V>(K(), V()))
+	{
+	}
+
+	KVPair(K key) : m_NativePair(std::pair<K, V>(key, V()))
+	{
+	}
+
+	KVPair(const char* key) : m_NativePair(std::pair<nana::detail::native_string_type, V>(nana::to_nstring(key), V()))
+	{
+	}
+
+	KVPair(const wchar_t* key) : m_NativePair(std::pair<nana::detail::native_string_type, V>(nana::to_nstring(key), V()))
+	{
+	}
+
+	KVPair(K key, const char* value) : m_NativePair(std::pair<K, nana::detail::native_string_type>(key, nana::to_nstring(value)))
+	{
+	}
+
+	KVPair(K key, const wchar_t* value) : m_NativePair(std::pair<K, nana::detail::native_string_type>(key, nana::to_nstring(value)))
+	{
+	}
+
+	KVPair(const char* key, V value) : m_NativePair(std::pair<nana::detail::native_string_type, V>(nana::to_nstring(key), value))
+	{
+	}
+
+	KVPair(const wchar_t* key, V value) : m_NativePair(std::pair<nana::detail::native_string_type, V>(nana::to_nstring(key), value))
+	{
+	}
+
+	KVPair(const char* key, const char* value) : m_NativePair(std::pair<nana::detail::native_string_type, nana::detail::native_string_type>(nana::to_nstring(key), nana::to_nstring(value)))
+	{
+	}
+
+	KVPair(const wchar_t* key, const wchar_t* value) : m_NativePair(std::pair<nana::detail::native_string_type, nana::detail::native_string_type>(nana::to_nstring(key), nana::to_nstring(value)))
+	{
+	}
+
+	KVPair(nana::detail::native_string_type key, nana::detail::native_string_type value) : m_NativePair(std::pair<nana::detail::native_string_type, nana::detail::native_string_type>(key, value))
+	{
+	}
+};
+
+template<typename K, typename V>
+struct ListviewItemKVPair : KVPair<K,V>
+{
+protected:
+	nana::listbox::item_proxy m_NativeItemProxy;
+
+public:
+	nana::listbox::item_proxy* ItemProxy()
+	{
+		return &m_NativeItemProxy;
 	}
 
 	ListviewItemKVPair& AppendToListbox(nana::listbox& listbox)
@@ -80,61 +198,47 @@ public:
 		return *this;
 	}
 
-	ListviewItemKVPair& SetKey(const K key)
-	{
-		KeyValuePtr()->first = key;
-
-		return *this;
-	}
-
-	ListviewItemKVPair& SetValue(const V value)
-	{
-		KeyValuePtr()->second = value;
-
-		return *this;
-	}
-
-	ListviewItemKVPair() : m_NativePair(std::pair<K, V>(K(), V())), m_NativeItemProxy(nana::listbox::item_proxy(nullptr))
+	ListviewItemKVPair() : KVPair<K, V>(), m_NativeItemProxy(nana::listbox::item_proxy(nullptr))
 	{
 	}
 
-	ListviewItemKVPair(K key) : m_NativePair(std::pair<K, V>(key, V())), m_NativeItemProxy(nana::listbox::item_proxy(nullptr))
+	ListviewItemKVPair(K key) : KVPair<K, V>(key), m_NativeItemProxy(nana::listbox::item_proxy(nullptr))
 	{
 	}
 
-	ListviewItemKVPair(const char* key) : m_NativePair(std::pair<nana::detail::native_string_type, V>(nana::to_nstring(key), V())), m_NativeItemProxy(nana::listbox::item_proxy(nullptr))
+	ListviewItemKVPair(const char* key) : KVPair<K, V>(key), m_NativeItemProxy(nana::listbox::item_proxy(nullptr))
 	{
 	}
 
-	ListviewItemKVPair(const wchar_t* key) : m_NativePair(std::pair<nana::detail::native_string_type, V>(nana::to_nstring(key), V())), m_NativeItemProxy(nana::listbox::item_proxy(nullptr))
+	ListviewItemKVPair(const wchar_t* key) : KVPair<K, V>(key), m_NativeItemProxy(nana::listbox::item_proxy(nullptr))
 	{
 	}
 
-	ListviewItemKVPair(K key, const char* value) : m_NativePair(std::pair<K, nana::detail::native_string_type>(key, nana::to_nstring(value))), m_NativeItemProxy(nana::listbox::item_proxy(nullptr))
+	ListviewItemKVPair(K key, const char* value) : KVPair<K, V>(key, value), m_NativeItemProxy(nana::listbox::item_proxy(nullptr))
 	{
 	}
 
-	ListviewItemKVPair(K key, const wchar_t* value) : m_NativePair(std::pair<K, nana::detail::native_string_type>(key, nana::to_nstring(value))), m_NativeItemProxy(nana::listbox::item_proxy(nullptr))
+	ListviewItemKVPair(K key, const wchar_t* value) : KVPair<K, V>(key, value), m_NativeItemProxy(nana::listbox::item_proxy(nullptr))
 	{
 	}
 
-	ListviewItemKVPair(const char* key, V value) : m_NativePair(std::pair<nana::detail::native_string_type, V>(nana::to_nstring(key), value)), m_NativeItemProxy(nana::listbox::item_proxy(nullptr))
+	ListviewItemKVPair(const char* key, V value) : KVPair<K, V>(key, value), m_NativeItemProxy(nana::listbox::item_proxy(nullptr))
 	{
 	}
 
-	ListviewItemKVPair(const wchar_t* key, V value) : m_NativePair(std::pair<nana::detail::native_string_type, V>(nana::to_nstring(key), value)), m_NativeItemProxy(nana::listbox::item_proxy(nullptr))
+	ListviewItemKVPair(const wchar_t* key, V value) : KVPair<K, V>(key, value), m_NativeItemProxy(nana::listbox::item_proxy(nullptr))
 	{
 	}
 
-	ListviewItemKVPair(const char* key, const char* value) : m_NativePair(std::pair<nana::detail::native_string_type, nana::detail::native_string_type>(nana::to_nstring(key), nana::to_nstring(value))), m_NativeItemProxy(nana::listbox::item_proxy(nullptr))
+	ListviewItemKVPair(const char* key, const char* value) : KVPair<K, V>(key, value), m_NativeItemProxy(nana::listbox::item_proxy(nullptr))
 	{
 	}
 
-	ListviewItemKVPair(const wchar_t* key, const wchar_t* value) : m_NativePair(std::pair<nana::detail::native_string_type, nana::detail::native_string_type>(nana::to_nstring(key), nana::to_nstring(value))), m_NativeItemProxy(nana::listbox::item_proxy(nullptr))
+	ListviewItemKVPair(const wchar_t* key, const wchar_t* value) : KVPair<K, V>(key, value), m_NativeItemProxy(nana::listbox::item_proxy(nullptr))
 	{
 	}
 
-	ListviewItemKVPair(nana::detail::native_string_type key, nana::detail::native_string_type value) : m_NativePair(std::pair<nana::detail::native_string_type, nana::detail::native_string_type>(key, value)), m_NativeItemProxy(nana::listbox::item_proxy(nullptr))
+	ListviewItemKVPair(nana::detail::native_string_type key, nana::detail::native_string_type value) : KVPair<K, V>(key, value), m_NativeItemProxy(nana::listbox::item_proxy(nullptr))
 	{
 	}
 };
