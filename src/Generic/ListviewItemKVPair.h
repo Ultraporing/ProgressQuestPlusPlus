@@ -1,9 +1,11 @@
-#pragma once
+#ifndef LISTVIEWITEM_KV_PAIR_H
+#define LISTVIEWITEM_KV_PAIR_H
+
 #include <nana/gui/widgets/listbox.hpp>
 #include <map>
 
 template<typename K, typename V, typename Derived>
-struct KVPair
+class KVPair
 {
 protected:
 	std::pair<K, V> m_NativePair;
@@ -179,7 +181,7 @@ public:
 };
 
 template<typename K, typename V>
-struct ListviewItemKVPair : KVPair<K, V, ListviewItemKVPair<K,V>>
+class ListviewItemKVPair : public KVPair<K, V, ListviewItemKVPair<K,V>>
 {
 protected:
 	nana::listbox::item_proxy m_NativeItemProxy;
@@ -321,3 +323,5 @@ nana::listbox::iresolver& operator >> (nana::listbox::iresolver& orr, ListviewIt
 	orr >> ps.KeyValuePtr()->second;
 	return orr;
 }
+
+#endif // !LISTVIEWITEM_KV_PAIR_H

@@ -9,8 +9,8 @@ set(CMAKE_CXX_STANDARD 17)
 configure_file("config.h.in" "${CMAKE_SOURCE_DIR}/src/config.h")
 include_directories(${PROJECT_BINARY_BIN})
 
-file(GLOB helloworld_SRC CONFIGURE_DEPENDS "${CMAKE_SOURCE_DIR}/src/**.h" "${CMAKE_SOURCE_DIR}/src/**.cpp")
-
+file(GLOB helloworld_SRC CONFIGURE_DEPENDS "${CMAKE_SOURCE_DIR}/src/**/**.h" "${CMAKE_SOURCE_DIR}/src/**/**.cpp" "${CMAKE_SOURCE_DIR}/src/**.h" "${CMAKE_SOURCE_DIR}/src/**.cpp")
+message ("source:" ${helloworld_SRC})
 add_executable(ProgressQuestPlusPlus ${helloworld_SRC})
 target_link_libraries(ProgressQuestPlusPlus PRIVATE nana )
 target_compile_definitions(ProgressQuestPlusPlus PUBLIC -D_SILENCE_EXPERIMENTAL_FILESYSTEM_DEPRECATION_WARNING -DNANA_IGNORE_CONF)
