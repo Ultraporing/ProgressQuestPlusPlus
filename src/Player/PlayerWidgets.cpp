@@ -127,6 +127,7 @@ void EquipmentWidget::UpdateUI()
     tSollerets = tSollerets.resolve_from(Sollerets);
 
     listboxWidget.auto_draw(false);
+    listboxWidget.column_at(0).fit_content();
     auto width0 = listboxWidget.column_at(0).width();
     auto f = listboxWidget.content_area().width;
     listboxWidget.column_at(0).width((unsigned int)(width0 * 1.10));
@@ -148,4 +149,60 @@ void EquipmentWidget::AppendToListbox()
     tCuisses = listboxWidget.at(0).append(Cuisses);
     tGreaves = listboxWidget.at(0).append(Greaves);
     tSollerets = listboxWidget.at(0).append(Sollerets);
+}
+
+ListviewItemKVPair<nana::detail::native_string_type, unsigned int> InventoryWidget::GetItem(const nana::detail::native_string_type& name)
+{
+    auto it = tInventoryList.find(name);
+    if (it != tInventoryList.end())
+    {
+        ListviewItemKVPair<nana::detail::native_string_type, unsigned int> oPair;
+        it->second.resolve_to(oPair);
+        return oPair;
+    }
+
+    return {};
+}
+
+void InventoryWidget::SetItem(ListviewItemKVPair<nana::detail::native_string_type, unsigned int> item)
+{
+    auto it = InventoryList.find(item.Key());
+
+    if (it != InventoryList.end())
+    {
+        auto it2 = tInventoryList.find(nana::to_nstring(item.Key()));
+        if (item.Value() == 0)
+        {
+            InventoryList.erase(it);
+            tInventoryList.erase(it2);
+        }
+        else
+        {
+            it->second = item;
+            it2->second = it2->second.resolve_from(item);
+        }
+    }
+    else
+    {
+        InventoryList.emplace(item.Key(), item);
+        tInventoryList.emplace(item.Key(), listboxWidget.at(0).append(item));
+    }
+}
+
+void InventoryWidget::UpdateUI()
+{
+    for (auto& it : InventoryList)
+    {
+        auto it2 = tInventoryList.find(nana::to_nstring(it.second.Key()));
+        it2->second = it2->second.resolve_from(it.second);
+    }
+
+    listboxWidget.auto_draw(false);
+    auto f = listboxWidget.content_area().width;
+    auto width1 = listboxWidget.column_at(1).width();
+    listboxWidget.column_at(1).width((unsigned int)(50));
+    width1 = listboxWidget.column_at(1).width();
+    listboxWidget.column_at(0).width(f - width1);
+
+    listboxWidget.auto_draw(true);
 }

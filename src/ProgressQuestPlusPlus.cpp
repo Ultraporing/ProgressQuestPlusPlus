@@ -41,24 +41,54 @@ int main()
     eqLbl.size(nana::size(eqLbl.size().width, 25));
     eqLbl.format(true);
 
+    label invLbl{ fm, "<bold=true>Inventory</>" };
+    invLbl.text_align(nana::align::left);
+    invLbl.typeface(nana::paint::font("", 10, true));
+    invLbl.size(nana::size(eqLbl.size().width, 25));
+    invLbl.format(true);
+
+    label encumbranceLbl{ fm, "Encumbrance" };
+    encumbranceLbl.text_align(nana::align::left);
+    encumbranceLbl.typeface(nana::paint::font("", 10, true));
+    encumbranceLbl.size(nana::size(eqLbl.size().width, 25));
+    encumbranceLbl.format(true);
+
+    progress encumbrancePro{ fm, true };
+    encumbrancePro.value(20);
+    encumbrancePro.unknown(false);
+
+    label statLbl{ fm, "Executing a Killert Toast" };
+    statLbl.text_align(nana::align::left);
+    statLbl.typeface(nana::paint::font("", 10, true));
+    statLbl.size(nana::size(eqLbl.size().width, 25));
+    statLbl.format(true);
+
+    progress statPro{ fm, true };
+    statPro.unknown(false);
+
     progress expPro{ fm, true };
+    expPro.unknown(false);
+
     label labExp{ fm, "Experience" };
     labExp.text_align(nana::align::left);
     labExp.typeface(nana::paint::font("", 10, true));
     labExp.format(true);
-    expPro.unknown(false);
-
+ 
     timer timer_;
-    timer_.elapse([&expPro](const nana::arg_elapse& ev)
+    timer_.elapse([&](const nana::arg_elapse& ev)
     {
             //Resets the known mode progress if its value reaches the amount value.
             if (expPro.value() == expPro.amount())
                 expPro.value(0);
             expPro.inc();
+
+            //Resets the known mode progress if its value reaches the amount value.
+            if (statPro.value() == statPro.amount())
+                statPro.value(0);
+            statPro.inc();
     });
     timer_.interval(std::chrono::milliseconds{ 80 });
     timer_.start();
-
 
     StatsWidget stats(fm);
     stats.STR.SetValue(to_nstring("5"));
@@ -83,6 +113,11 @@ int main()
     spells.SetSpell(ListviewItemKVPair<nana::detail::native_string_type, nana::detail::native_string_type>( nana::to_nstring("kmkw"), IntToRoman(12)));
 
     EquipmentWidget equipment(fm);
+    equipment.Weapon.SetValue(to_nstring("+1 Toaster"));
+
+    InventoryWidget inventory(fm);
+    inventory.SetItem(ListviewItemKVPair<nana::detail::native_string_type, unsigned int>("alcoholic liver", 5));
+    inventory.SetItem(ListviewItemKVPair<nana::detail::native_string_type, unsigned int>("pikachu tail", 2));
    
     label l1{ fm, "l1"};
     label l2{ fm, "l2" };
@@ -95,15 +130,11 @@ int main()
     
     //Layout management
     place plc(fm);
-    plc.div("<vertical leftFld arrange=[20,110,195,20,20,20,variable]><vertical centerFld arrange=[20,235,200,20,20,20,variable]><rightFld>");
-   // plc.modify("centerFld", "<vertical <l1 weight = 20><l2 weight = 108><l3 weight = 150><l4 weight = 20><l5 weight = 20>");
-    plc.modify("rightFld", "<vertical <l6 weight = 20><l7 weight = 108><l8 weight = 150>");
+    plc.div("<vertical <hoizontal <vertical leftFld arrange=[20,110,195,20,20,20,variable]><vertical centerFld arrange=[20,235,20,variable,20,20]><vertical rightFld arrange=[20,20,20]>><vert btm weight=40>>");
     plc["leftFld"] << charSheetLbl << traits.GetListboxWidget() << stats.GetListboxWidget() << labExp << expPro << spellBookLbl << spells.GetListboxWidget();
-    plc["centerFld"] << eqLbl << equipment.GetListboxWidget();
-  
-    plc["l6"] << l6;
-    plc["l7"] << l7;
-    plc["l8"] << l8;
+    plc["centerFld"] << eqLbl << equipment.GetListboxWidget() << invLbl << inventory.GetListboxWidget() << encumbranceLbl << encumbrancePro;
+    plc["btm"] << statLbl << statPro;
+    plc["rightFld"] << l6 << l7 << l8;
 
     plc.collocate();
     
@@ -111,6 +142,7 @@ int main()
     traits.UpdateUI();
     spells.UpdateUI();
     equipment.UpdateUI();
+    inventory.UpdateUI();
 
     //Show the form
     fm.show();

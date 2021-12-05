@@ -14,7 +14,8 @@ public:
 	
 	TraitsWidget(nana::window wnd) :
 		Name("Name", ""), Race("Race", ""), Class("Class", ""), Level("Level", ""),
-		tName(nana::listbox::item_proxy(nullptr)), tRace(nana::listbox::item_proxy(nullptr)), tClass(nana::listbox::item_proxy(nullptr)), tLevel(nana::listbox::item_proxy(nullptr)), listboxWidget(wnd, true)
+		tName(nana::listbox::item_proxy(nullptr)), tRace(nana::listbox::item_proxy(nullptr)), tClass(nana::listbox::item_proxy(nullptr)), tLevel(nana::listbox::item_proxy(nullptr)), 
+		listboxWidget(wnd, true)
 	{
 		listboxWidget.clear_headers();
 		listboxWidget.auto_draw(false);
@@ -109,7 +110,9 @@ class SpellsWidget
 public:
 	std::map<nana::detail::native_string_type, ListviewItemKVPair<nana::detail::native_string_type, nana::detail::native_string_type>> SpellList;
 
-	SpellsWidget(nana::window wnd) : SpellList(std::map<nana::detail::native_string_type, ListviewItemKVPair<nana::detail::native_string_type, nana::detail::native_string_type>>()), tSpellList(std::map<nana::detail::native_string_type, nana::listbox::item_proxy>()), listboxWidget(wnd, true)
+	SpellsWidget(nana::window wnd) : SpellList(std::map<nana::detail::native_string_type, ListviewItemKVPair<nana::detail::native_string_type, nana::detail::native_string_type>>()), 
+		tSpellList(std::map<nana::detail::native_string_type, nana::listbox::item_proxy>()), 
+		listboxWidget(wnd, true)
 	{
 		listboxWidget.clear_headers();
 		listboxWidget.auto_draw(false);
@@ -202,6 +205,44 @@ private:
 	nana::listbox listboxWidget;
 
 	void AppendToListbox();
+};
+
+class InventoryWidget
+{
+public:
+	std::map<nana::detail::native_string_type, ListviewItemKVPair<nana::detail::native_string_type, unsigned int>> InventoryList;
+
+	InventoryWidget(nana::window wnd) : InventoryList(std::map<nana::detail::native_string_type, ListviewItemKVPair<nana::detail::native_string_type, unsigned int>>()), 
+		tInventoryList(std::map<nana::detail::native_string_type, nana::listbox::item_proxy>()), 
+		listboxWidget(wnd, true)
+	{
+		listboxWidget.clear_headers();
+		listboxWidget.auto_draw(false);
+		listboxWidget.sortable(false);
+		listboxWidget.append_header("Item");
+		listboxWidget.append_header("Qty");
+		listboxWidget.column_at(0).fit_content();
+		listboxWidget.auto_draw(true);
+		listboxWidget.column_movable(false);
+		listboxWidget.column_resizable(false);
+		listboxWidget.enable_single(true, false);
+
+		listboxWidget.events().resized([&] {
+			UpdateUI();
+			});
+	}
+
+	ListviewItemKVPair<nana::detail::native_string_type, unsigned int> GetItem(const nana::detail::native_string_type& name);
+	void SetItem(ListviewItemKVPair<nana::detail::native_string_type, unsigned int> item);
+	void UpdateUI();
+	nana::listbox& GetListboxWidget()
+	{
+		return listboxWidget;
+	}
+
+private:
+	std::map<nana::detail::native_string_type, nana::listbox::item_proxy> tInventoryList;
+	nana::listbox listboxWidget;
 };
 
 #endif // !PLAYER_WIDGETS_H
