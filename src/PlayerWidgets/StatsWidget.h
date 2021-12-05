@@ -16,7 +16,7 @@ public:
 	ListviewItemKVPair<nana::detail::native_string_type, nana::detail::native_string_type> HPMax;
 	ListviewItemKVPair<nana::detail::native_string_type, nana::detail::native_string_type> MPMax;
 
-	StatsWidget(nana::window wnd) :
+	StatsWidget(nana::window wnd = nullptr) :
 		STR("STR", ""), CON("CON", ""), DEX("DEX", ""), INT("INT", ""), WIS("WIS", ""), CHA("CHA", ""), HPMax("HP Max", ""), MPMax("MP Max", ""),
 		tSTR(nana::listbox::item_proxy(nullptr)), tCON(nana::listbox::item_proxy(nullptr)),	tDEX(nana::listbox::item_proxy(nullptr)), 
 		tINT(nana::listbox::item_proxy(nullptr)), tWIS(nana::listbox::item_proxy(nullptr)), tCHA(nana::listbox::item_proxy(nullptr)),

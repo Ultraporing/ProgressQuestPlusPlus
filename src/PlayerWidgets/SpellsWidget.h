@@ -9,7 +9,7 @@ class SpellsWidget
 public:
 	std::map<nana::detail::native_string_type, ListviewItemKVPair<nana::detail::native_string_type, nana::detail::native_string_type>> SpellList;
 
-	SpellsWidget(nana::window wnd) : SpellList(std::map<nana::detail::native_string_type, ListviewItemKVPair<nana::detail::native_string_type, nana::detail::native_string_type>>()), 
+	SpellsWidget(nana::window wnd = nullptr) : SpellList(std::map<nana::detail::native_string_type, ListviewItemKVPair<nana::detail::native_string_type, nana::detail::native_string_type>>()),
 		tSpellList(std::map<nana::detail::native_string_type, nana::listbox::item_proxy>()), 
 		listboxWidget(wnd, true)
 	{

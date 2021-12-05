@@ -12,7 +12,7 @@ public:
 	ListviewItemKVPair<nana::detail::native_string_type, nana::detail::native_string_type> Class;
 	ListviewItemKVPair<nana::detail::native_string_type, nana::detail::native_string_type> Level;
 	
-	TraitsWidget(nana::window wnd) :
+	TraitsWidget(nana::window wnd = nullptr) :
 		Name("Name", ""), Race("Race", ""), Class("Class", ""), Level("Level", ""),
 		tName(nana::listbox::item_proxy(nullptr)), tRace(nana::listbox::item_proxy(nullptr)), tClass(nana::listbox::item_proxy(nullptr)), tLevel(nana::listbox::item_proxy(nullptr)), 
 		listboxWidget(wnd, true)

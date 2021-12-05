@@ -47,7 +47,6 @@ void PlotsWidget::SetPlot(ListviewItemKVPair<nana::detail::native_string_type, i
 void PlotsWidget::ResizeHeaders()
 {
     auto f = listboxWidget.content_area().width;
-    auto width1 = listboxWidget.column_at(0).width();
     listboxWidget.column_at(0).width(f);
 }
 

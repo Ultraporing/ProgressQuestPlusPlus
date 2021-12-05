@@ -9,7 +9,7 @@ class InventoryWidget
 public:
 	std::map<nana::detail::native_string_type, ListviewItemKVPair<nana::detail::native_string_type, unsigned int>> InventoryList;
 
-	InventoryWidget(nana::window wnd) : InventoryList(std::map<nana::detail::native_string_type, ListviewItemKVPair<nana::detail::native_string_type, unsigned int>>()), 
+	InventoryWidget(nana::window wnd = nullptr) : InventoryList(std::map<nana::detail::native_string_type, ListviewItemKVPair<nana::detail::native_string_type, unsigned int>>()),
 		tInventoryList(std::map<nana::detail::native_string_type, nana::listbox::item_proxy>()), 
 		listboxWidget(wnd, true)
 	{

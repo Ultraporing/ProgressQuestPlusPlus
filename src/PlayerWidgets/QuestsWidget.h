@@ -9,7 +9,7 @@ class QuestsWidget
 public:
 	std::map<nana::detail::native_string_type, ListviewItemKVPair<nana::detail::native_string_type, int>> QuestList;
 
-	QuestsWidget(nana::window wnd) : QuestList(std::map<nana::detail::native_string_type, ListviewItemKVPair<nana::detail::native_string_type, int>>()),
+	QuestsWidget(nana::window wnd = nullptr) : QuestList(std::map<nana::detail::native_string_type, ListviewItemKVPair<nana::detail::native_string_type, int>>()),
 		tQuestList(std::map<nana::detail::native_string_type, nana::listbox::item_proxy>()),
 		listboxWidget(wnd, true)
 	{

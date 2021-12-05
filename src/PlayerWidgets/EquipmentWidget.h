@@ -19,7 +19,7 @@ public:
 	ListviewItemKVPair<nana::detail::native_string_type, nana::detail::native_string_type> Greaves;
 	ListviewItemKVPair<nana::detail::native_string_type, nana::detail::native_string_type> Sollerets;
 
-	EquipmentWidget(nana::window wnd) :
+	EquipmentWidget(nana::window wnd = nullptr) :
 		Weapon("Weapon", ""), Shield("Shield", ""), Helm("Helm", ""), Hauberk("Hauberk", ""), Brassairts("Brassairts", ""), 
 		Vambraces("Vambraces", ""), Gauntlets("Gauntlets", ""), Gamberson("Gamberson", ""), Cuisses("Cuisses", ""), Greaves("Greaves", ""), Sollerets("Sollerets", ""),
 		tWeapon(nana::listbox::item_proxy(nullptr)), tShield(nana::listbox::item_proxy(nullptr)), tHelm(nana::listbox::item_proxy(nullptr)),

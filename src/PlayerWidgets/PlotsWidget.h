@@ -9,7 +9,7 @@ class PlotsWidget
 public:
 	std::map<nana::detail::native_string_type, ListviewItemKVPair<nana::detail::native_string_type, int>> PlotList;
 
-	PlotsWidget(nana::window wnd) : PlotList(std::map<nana::detail::native_string_type, ListviewItemKVPair<nana::detail::native_string_type, int>>()),
+	PlotsWidget(nana::window wnd = nullptr) : PlotList(std::map<nana::detail::native_string_type, ListviewItemKVPair<nana::detail::native_string_type, int>>()),
 		tPlotList(std::map<nana::detail::native_string_type, nana::listbox::item_proxy>()),
 		listboxWidget(wnd, true)
 	{
