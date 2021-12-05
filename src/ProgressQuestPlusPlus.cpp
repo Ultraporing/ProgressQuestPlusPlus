@@ -9,7 +9,7 @@
 #include <nana/gui/widgets/progress.hpp>
 #include <nana/gui/timer.hpp>
 #include <string>
-#include "Player/PlayerWidgets.h"
+#include "PlayerWidgets/PlayerWidgets.h"
 
 using namespace std;
 
@@ -69,13 +69,33 @@ int main()
     progress expPro{ fm, true };
     expPro.unknown(false);
 
+    progress plotPro{ fm, true };
+    plotPro.value(30);
+    plotPro.unknown(false);
+
+    label plotLbl{ fm, "<bold=true>Plot Development</>" };
+    plotLbl.text_align(nana::align::left);
+    plotLbl.typeface(nana::paint::font("", 10, true));
+    plotLbl.size(nana::size(eqLbl.size().width, 25));
+    plotLbl.format(true);
+
+    progress questPro{ fm, true };
+    questPro.value(70);
+    questPro.unknown(false);
+
+    label questLbl{ fm, "<bold=true>Quests</>" };
+    questLbl.text_align(nana::align::left);
+    questLbl.typeface(nana::paint::font("", 10, true));
+    questLbl.size(nana::size(eqLbl.size().width, 25));
+    questLbl.format(true);
+
     label labExp{ fm, "Experience" };
     labExp.text_align(nana::align::left);
     labExp.typeface(nana::paint::font("", 10, true));
     labExp.format(true);
  
     timer timer_;
-    timer_.elapse([&](const nana::arg_elapse& ev)
+    timer_.elapse([&]()
     {
             //Resets the known mode progress if its value reaches the amount value.
             if (expPro.value() == expPro.amount())
@@ -118,6 +138,14 @@ int main()
     InventoryWidget inventory(fm);
     inventory.SetItem(ListviewItemKVPair<nana::detail::native_string_type, unsigned int>("alcoholic liver", 5));
     inventory.SetItem(ListviewItemKVPair<nana::detail::native_string_type, unsigned int>("pikachu tail", 2));
+
+    PlotsWidget plots(fm);
+    plots.SetPlot(ListviewItemKVPair<nana::detail::native_string_type, int>("Prologue", 1));
+    plots.SetPlot(ListviewItemKVPair<nana::detail::native_string_type, int>("Act I", 0));
+
+    QuestsWidget quests(fm);
+    quests.SetQuest(ListviewItemKVPair<nana::detail::native_string_type, int>("Shit the bed", 1));
+    quests.SetQuest(ListviewItemKVPair<nana::detail::native_string_type, int>("Watch paint dry", 0));
    
     label l1{ fm, "l1"};
     label l2{ fm, "l2" };
@@ -130,19 +158,20 @@ int main()
     
     //Layout management
     place plc(fm);
-    plc.div("<vertical <hoizontal <vertical leftFld arrange=[20,110,195,20,20,20,variable]><vertical centerFld arrange=[20,235,20,variable,20,20]><vertical rightFld arrange=[20,20,20]>><vert btm weight=40>>");
+    plc.div("<vertical <hoizontal <vertical leftFld arrange=[20,110,195,20,20,20,variable]><vertical centerFld arrange=[20,235,20,variable,20,20]><vertical rightFld arrange=[20,215,20,20,variable,20]>><vert statFld weight=40>>");
     plc["leftFld"] << charSheetLbl << traits.GetListboxWidget() << stats.GetListboxWidget() << labExp << expPro << spellBookLbl << spells.GetListboxWidget();
     plc["centerFld"] << eqLbl << equipment.GetListboxWidget() << invLbl << inventory.GetListboxWidget() << encumbranceLbl << encumbrancePro;
-    plc["btm"] << statLbl << statPro;
-    plc["rightFld"] << l6 << l7 << l8;
+    plc["statFld"] << statLbl << statPro;
+    plc["rightFld"] << plotLbl << plots.GetListboxWidget() << plotPro << questLbl << quests.GetListboxWidget() << questPro;
 
     plc.collocate();
     
-    stats.UpdateUI();
-    traits.UpdateUI();
-    spells.UpdateUI();
-    equipment.UpdateUI();
-    inventory.UpdateUI();
+    stats.UpdateData();
+    traits.UpdateData();
+    spells.UpdateData();
+    equipment.UpdateData();
+    inventory.UpdateData();
+    plots.UpdateData();
 
     //Show the form
     fm.show();
