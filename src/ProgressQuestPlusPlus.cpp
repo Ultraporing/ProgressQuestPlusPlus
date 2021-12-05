@@ -5,7 +5,7 @@
 #include "config.h"
 #include <nana/gui.hpp>
 #include <string>
-#include "Gameplay/Player.h"
+#include "Gameplay/PlayerScreen.h"
 
 using namespace std;
 
@@ -17,9 +17,13 @@ int main()
 
     //Define a form.
     form fm(API::make_center(800,600));
-    Player* plr = new Player(fm);
+    PlayerScreen* plr = new PlayerScreen(fm);
+    PlayerData data = PlayerData();
+    plr->SetPlayer(data);
+    plr->GetPlayer().m_Class = nana::to_nstring("derp");
+    plr->UpdateUI();
     // only way to get rid of it: delete plr;
- 
+    
     //Show the form
     fm.show();
 

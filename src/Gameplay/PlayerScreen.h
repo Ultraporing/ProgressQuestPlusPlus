@@ -1,16 +1,23 @@
-#ifndef PLAYER_H 
-#define PLAYER_H
+#ifndef PLAYER_SCREEN_H 
+#define PLAYER_SCREEN_H
 #include "../PlayerWidgets/PlayerWidgets.h"
+#include "PlayerData.h"
 #include <nana/gui.hpp>
 #include <nana/gui/widgets/label.hpp>
 #include <nana/gui/widgets/button.hpp>
 #include <nana/gui/widgets/progress.hpp>
 #include <nana/gui/timer.hpp>
 
-class Player
+class PlayerScreen
 {
 public:
-	Player(nana::window wnd);
+	PlayerScreen(nana::window wnd, PlayerData plrData = PlayerData());
+	void SetPlayer(PlayerData plrData);
+	void UpdateUI();
+	PlayerData& GetPlayer()
+	{
+		return m_PlayerData;
+	}
 
 protected:
 	nana::place m_PlayerFrame;
@@ -40,6 +47,8 @@ protected:
 	PlotsWidget m_Plots;
 	QuestsWidget m_Quests;
 
+	PlayerData m_PlayerData;
+
 	void SetLayout();
 };
-#endif // !PLAYER_H
+#endif // !PLAYER_SCREEN_H
