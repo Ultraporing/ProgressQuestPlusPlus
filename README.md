@@ -1,4 +1,4 @@
-# ProgressQuestPlusPlus
+# Progress Quest Plus Plus
 
 ## What is this?
 A faithful C++ Port of the Progress Quest Game
