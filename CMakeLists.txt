@@ -4,6 +4,11 @@
 cmake_minimum_required (VERSION 3.8)
 
 project (ProgressQuestPlusPlus VERSION "6.2.0")
+
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+
 cmake_policy(SET CMP0092 OLD)
 set(CMAKE_CXX_STANDARD 17)
 configure_file("config.h.in" "${CMAKE_SOURCE_DIR}/src/config.h")
@@ -13,11 +18,13 @@ file(GLOB helloworld_SRC CONFIGURE_DEPENDS "${CMAKE_SOURCE_DIR}/src/**/**.h" "${
 message ("source:" ${helloworld_SRC})
 add_executable(ProgressQuestPlusPlus ${helloworld_SRC})
 target_link_libraries(ProgressQuestPlusPlus PRIVATE nana )
+target_link_libraries(ProgressQuestPlusPlus PRIVATE zstr )
 target_compile_definitions(ProgressQuestPlusPlus PUBLIC -D_SILENCE_EXPERIMENTAL_FILESYSTEM_DEPRECATION_WARNING -DNANA_IGNORE_CONF)
 
 set_target_properties(ProgressQuestPlusPlus PROPERTIES CXX_EXTENSIONS ON)
 
 add_subdirectory("${CMAKE_SOURCE_DIR}/lib/nana" "${CMAKE_SOURCE_DIR}/lib/nana/cmake-nana-build-${CONFIG}" )
+add_subdirectory("${CMAKE_SOURCE_DIR}/lib/zstr" "${CMAKE_SOURCE_DIR}/lib/zstr/cmake-zstr-build" )
 
 foreach(flag
         CMAKE_C_FLAGS              CMAKE_C_FLAGS_DEBUG             CMAKE_C_FLAGS_RELEASE

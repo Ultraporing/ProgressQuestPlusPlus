@@ -1,0 +1,13 @@
+prefix=F:/Visual Studio Projekte/ProgressQuestPlusPlus/out/install/x64-debug
+exec_prefix=F:/Visual Studio Projekte/ProgressQuestPlusPlus/out/install/x64-debug
+libdir=F:/Visual Studio Projekte/ProgressQuestPlusPlus/out/install/x64-debug/lib
+sharedlibdir=F:/Visual Studio Projekte/ProgressQuestPlusPlus/out/install/x64-debug/lib
+includedir=F:/Visual Studio Projekte/ProgressQuestPlusPlus/out/install/x64-debug/include
+
+Name: zlib
+Description: zlib compression library
+Version: 1.2.11
+
+Requires:
+Libs: -L${libdir} -L${sharedlibdir} -lz
+Cflags: -I${includedir}
